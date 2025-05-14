@@ -13,7 +13,7 @@ export default function Home() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Hey, I'm Yash 👋
+        Hey, I&apos;m Yash 👋
       </motion.h1>
 
       <motion.p
