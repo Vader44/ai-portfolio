@@ -1,50 +1,112 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const projects = [
   {
-    title: "Employee Portal UI",
+    id: 1,
+    title: "Enterprise UCC Dashboard",
     description:
-      "An internal Angular-based dashboard for managing SAP data, logins, and UCC uploads.",
+      "Internal portal for managing SAP complaint workflows and routing at Jio.",
+    stack: ["Angular", "TypeScript", "SCSS", "SAP API"],
+    confidential: true,
   },
   {
-    title: "TRAI DnD PDF Reporting",
+    id: 2,
+    title: "TrueConnect Portal",
     description:
-      "Generated stylized PDF reports using Puppeteer, later optimized to use pdfmake.",
+      "Built frontend UI components for enterprise user provisioning and audits.",
+    stack: ["Angular 6", "RxJS", "Bootstrap", "REST"],
+    confidential: true,
   },
   {
-    title: "File Parser + Validator",
+    id: 3,
+    title: "AI Portfolio (this site)",
     description:
-      "CSV upload + JSON conversion + API sync in Angular with edit & error UI.",
+      "React + Next.js portfolio with Framer Motion, Tailwind and shadcn/ui.",
+    stack: ["Next.js", "React", "Framer Motion", "Tailwind CSS"],
+    confidential: false,
   },
 ];
 
-export default function Projects() {
-  return (
-    <div className="min-h-screen px-6 py-10 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-8 text-center">My Projects 🚀</h1>
+export default function ProjectsPage() {
+  const [selected, setSelected] = useState<any>(null);
 
-      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
+  return (
+    <div className="max-w-5xl mx-auto px-4 py-12">
+      <h1 className="text-4xl font-bold mb-8 text-center">Projects 🛠</h1>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {projects.map((project, index) => (
           <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2 }}
+            key={project.id}
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setSelected(project)}
           >
-            <Card className="hover:shadow-xl transition-shadow">
+            <Card className="cursor-pointer hover:shadow-md transition">
               <CardHeader>
                 <CardTitle>{project.title}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{project.description}</p>
+              <CardContent className="space-y-2">
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {project.stack.map((tech) => (
+                    <Badge key={tech} variant="secondary">
+                      {tech}
+                    </Badge>
+                  ))}
+                  {project.confidential && (
+                    <Badge variant="destructive">🔒 Confidential</Badge>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </motion.div>
         ))}
       </div>
+
+      {/* 🔍 Modal */}
+      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
+        <DialogContent className="max-w-md">
+          {selected && (
+            <>
+              <DialogTitle>{selected.title}</DialogTitle>
+              <DialogDescription className="text-sm text-muted-foreground mb-3">
+                {selected.description}
+              </DialogDescription>
+              <div className="flex flex-wrap gap-2">
+                {selected.stack.map((tech: string) => (
+                  <Badge key={tech} variant="secondary">
+                    {tech}
+                  </Badge>
+                ))}
+                {selected.confidential && (
+                  <Badge variant="destructive">🔒 Internal Only</Badge>
+                )}
+              </div>
+              {!selected.confidential && (
+                <div className="mt-4 flex gap-3">
+                  <Button variant="outline">View Code</Button>
+                  <Button>Live Demo</Button>
+                </div>
+              )}
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
