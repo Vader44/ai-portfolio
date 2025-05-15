@@ -40,14 +40,22 @@ const projects = [
 ];
 
 export default function ProjectsPage() {
-  const [selected, setSelected] = useState<any>(null);
+  type Project = {
+    id: number;
+    title: string;
+    description: string;
+    stack: string[];
+    confidential: boolean;
+  };
+
+  const [selected, setSelected] = useState<Project | null>(null);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-8 text-center">Projects 🛠</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {projects.map((project, index) => (
+        {projects.map((project) => (
           <motion.div
             key={project.id}
             whileHover={{ scale: 1.03 }}
