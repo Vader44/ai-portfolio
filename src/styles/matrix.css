@@ -1,0 +1,94 @@
+/* Flashing neon matrix effect */
+body.matrix-mode {
+  background-color: black !important;
+  color: #00ff00 !important;
+  transition: background 0.2s ease-in-out;
+  animation: flashBg 0.5s steps(2, start) infinite;
+}
+
+body.matrix-mode *,
+body.matrix-mode button,
+body.matrix-mode input,
+body.matrix-mode textarea {
+  color: #00ff00 !important;
+  background: transparent !important;
+  border-color: #00ff00 !important;
+  animation: flashText 0.8s steps(2, start) infinite;
+}
+
+@keyframes flashBg {
+  0%,
+  100% {
+    background-color: #000;
+  }
+  50% {
+    background-color: #001a00;
+  }
+}
+
+@keyframes flashText {
+  0%,
+  100% {
+    color: #00ff00;
+  }
+  50% {
+    color: #008800;
+  }
+}
+
+/* Optional legacy bounce (not in use anymore) */
+@keyframes matrixBounce {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  25% {
+    transform: translate(80vw, 0px);
+  }
+  50% {
+    transform: translate(80vw, 80vh);
+  }
+  75% {
+    transform: translate(0px, 80vh);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+.matrix-floating-label {
+  display: none;
+}
+
+.matrix-terminal-overlay {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #00ff00;
+  font-family: monospace;
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+  border: 2px solid #00ff00;
+  border-radius: 8px;
+  z-index: 9999;
+  white-space: pre-wrap;
+  box-shadow: 0 0 20px #00ff00;
+  opacity: 0;
+  animation: fadeInOut 3s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
