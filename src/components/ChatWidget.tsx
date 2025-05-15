@@ -12,26 +12,22 @@ const USER_AVATAR = "🧑‍💻";
 const responses: Record<string, string> = {
   who: "I'm YashBot — your friendly dev assistant built for this portfolio!",
   tech: "🛠 I love working with React, Angular, Tailwind, and a little Framer spice ✨",
-  game: "🎮 I’m deep into AAA games — Red Dead Redemption, Assassin’s Creed, God of War, you name it. On PS5 and PC both. And yes... my Steam profile speaks for itself: https://steamcommunity.com/id/gamevader",
+  game: "__steam_profile__",
   joke: "Why do programmers hate nature? Too many bugs! 🐛",
-  story:
-    "This portfolio was built to showcase my love for UI, motion, and code that feels good.",
+  story: "This portfolio was built to showcase my love for UI, motion, and code that feels good.",
   sudo: "🟢 Booting root shell... Matrix stream online... 💻",
-  hack: "🟢 Breaching mainframe... Displaying source code... 👾",
+  hack: "🟢 Breaching mainframe... Displaying source code... 💾",
   song: "🎵 Twinkle twinkle little div, how I wonder what you did...",
   css: "😭 Please... not the CSS... anything but the CSS...",
-  project:
-    "🧪 This portfolio? It's my playground for motion, interaction, and vibes.",
-  hobbies:
-    "🧩 Besides coding? I sketch interfaces, tweak animations, and sometimes rage at Valorant.",
-  skills:
-    "🧰 React, Angular, TypeScript, Tailwind, Framer Motion, and a little backend mischief.",
+  project: "🧪 This portfolio? It's my playground for motion, interaction, and vibes.",
+  hobbies: "🧩 Besides coding? I sketch interfaces, tweak animations, and sometimes rage at Valorant.",
+  skills: "🛠 React, Angular, TypeScript, Tailwind, Framer Motion, and a little backend mischief.",
   good: "📈 I'm learning fast — faster than npm can deprecate a package!",
   why: "🚀 To showcase not just my code, but how I think about UI and motion.",
   color: "🎨 Probably a deep cyberpunk purple. Or classic #0f0.",
   fav: "🎮 Valorant lately. But I respect old-school Counter Strike and Portal.",
-  "npm install":
-    "📦 Installing... 17,394 packages with 12 vulnerabilities. Please wait... 😂",
+  "npm install": "📦 Installing... 17,394 packages with 12 vulnerabilities. Please wait... 😂",
+  resume: "📄 Here's my resume. You can download it below."
 };
 
 const fallbackReplies = [
@@ -46,7 +42,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<
-    { sender: "bot" | "user"; text: string }[]
+    { sender: "bot" | "user"; text: string; isResume?: boolean }[]
   >([{ sender: "bot", text: "Hi! I'm YashBot. Ask me anything 👇" }]);
 
   const endRef = useRef<HTMLDivElement>(null);
@@ -86,11 +82,15 @@ export default function ChatWidget() {
     setTimeout(() => {
       const lower = input.toLowerCase();
       let botText = "";
+      let isResume = false;
 
       if (lower.includes("sudo")) {
         triggerMatrixMode();
         setTimeout(stopMatrixMode, 3000);
         botText = "🟢 Matrix system booted... briefly.";
+      } else if (lower.includes("resume")) {
+        botText = responses["resume"];
+        isResume = true;
       } else {
         const match = Object.entries(responses).find(([key]) =>
           lower.includes(key)
@@ -101,13 +101,15 @@ export default function ChatWidget() {
           : fallbackReplies[Math.floor(Math.random() * fallbackReplies.length)];
       }
 
-      setMessages((prev) => [...prev, { sender: "bot", text: botText }]);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: botText, isResume },
+      ]);
       setIsTyping(false);
     }, 1500);
 
     setInput("");
   };
-
   return (
     <>
       <button
@@ -116,7 +118,7 @@ export default function ChatWidget() {
       >
         <MessageCircle className="w-5 h-5" strokeWidth={2.2} />
       </button>
-
+  
       <AnimatePresence>
         {open && (
           <motion.div
@@ -129,7 +131,7 @@ export default function ChatWidget() {
             <div className="p-3 border-b text-sm font-bold text-center text-green-500">
               YashBot 🤖
             </div>
-
+  
             <div className="flex-1 p-3 space-y-2 overflow-y-auto">
               {messages.map((msg, i) => (
                 <motion.div
@@ -142,18 +144,47 @@ export default function ChatWidget() {
                 >
                   {msg.sender === "bot" && <span>{BOT_AVATAR}</span>}
                   <div
-                    className={`max-w-[80%] px-3 py-2 rounded-xl text-sm break-words ${
+                    className={`max-w-[80%] px-4 py-3 rounded-xl text-sm break-words whitespace-pre-wrap ${
                       msg.sender === "user"
                         ? "bg-accent text-accent-foreground"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {msg.text}
+                    {msg.text === "__steam_profile__" ? (
+                      <>
+                        🎮 I’m deep into AAA games — Red Dead Redemption, Assassin’s Creed, God of War, you name it. On PS5 and PC both.
+                        <div className="mt-3">
+                          <a
+                            href="https://steamcommunity.com/id/gamevader"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1 rounded transition"
+                          >
+                            View Steam Profile
+                          </a>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {msg.text}
+                        {msg.isResume && (
+                          <div className="mt-3">
+                            <a
+                              href="/resume.pdf"
+                              download
+                              className="inline-block bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-3 py-1 rounded transition"
+                            >
+                              Download Resume
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
                   {msg.sender === "user" && <span>{USER_AVATAR}</span>}
                 </motion.div>
               ))}
-
+  
               {isTyping && (
                 <div className="text-sm text-muted-foreground flex items-center gap-2">
                   <span>{BOT_AVATAR}</span>
@@ -162,7 +193,7 @@ export default function ChatWidget() {
               )}
               <div ref={endRef} />
             </div>
-
+  
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -184,5 +215,5 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
     </>
-  );
+  );  
 }
