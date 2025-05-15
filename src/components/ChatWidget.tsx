@@ -42,7 +42,6 @@ const fallbackReplies = [
 ];
 
 export default function ChatWidget() {
-  const [matrixActive, setMatrixActive] = useState(false);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);

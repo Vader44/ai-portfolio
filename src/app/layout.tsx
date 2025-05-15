@@ -4,7 +4,6 @@ import "../styles/matrix.css"; // ✅ IMPORT MATRIX STYLES
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
-import { Download } from "lucide-react";
 import { Toaster } from "sonner";
 import ChatWidget from "@/components/ChatWidget";
 
