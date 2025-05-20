@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   ReactIcon, 
   TypeScriptIcon, 
@@ -217,7 +217,6 @@ const techStack = [
 ];
 
 export default function SkillsVisualization() {
-  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("all");
 
   const filteredSkills = activeTab === "all" 
@@ -265,8 +264,6 @@ export default function SkillsVisualization() {
                     stroke="#8884d8"
                     fill="#8884d8"
                     fillOpacity={0.6}
-                    onMouseEnter={(data) => setSelectedSkill(data.skill)}
-                    onMouseLeave={() => setSelectedSkill(null)}
                   />
                   <Tooltip
                     content={({ active, payload }) => {
@@ -284,7 +281,7 @@ export default function SkillsVisualization() {
                             <div className="space-y-1">
                               <p className="text-sm font-medium">Projects:</p>
                               <ul className="text-sm text-muted-foreground">
-                                {skill.projects.map((project, i) => (
+                                {skill.projects.map((project: string, i: number) => (
                                   <li key={i}>• {project}</li>
                                 ))}
                               </ul>
@@ -293,7 +290,7 @@ export default function SkillsVisualization() {
                               <div className="mt-2">
                                 <p className="text-sm font-medium">Certifications:</p>
                                 <div className="flex flex-wrap gap-1 mt-1">
-                                  {skill.certifications.map((cert, i) => (
+                                  {skill.certifications.map((cert: string, i: number) => (
                                     <Badge key={i} variant="secondary">
                                       {cert}
                                     </Badge>

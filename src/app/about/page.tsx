@@ -3,37 +3,6 @@
 import { motion } from "framer-motion";
 import Timeline from '@/components/Timeline';
 
-const timeline = [
-  {
-    year: "2017",
-    emoji: "🎓",
-    title: "Engineering Begins",
-    description:
-      "Started B.E. in IT. Wrote my first C program and built static websites.",
-  },
-  {
-    year: "2021",
-    emoji: "🧑‍💻",
-    title: "Joined Jio",
-    description:
-      "Frontend Dev on Angular + SAP systems. Built portals & internal tools.",
-  },
-  {
-    year: "2023",
-    emoji: "🎮",
-    title: "The Gamer Dev Arc",
-    description:
-      "Started building side projects with React, Tailwind, and Framer Motion.",
-  },
-  {
-    year: "2025",
-    emoji: "🚀",
-    title: "This Portfolio",
-    description:
-      "Launched my personal dev+gamer themed portfolio. You're looking at it 😉",
-  },
-];
-
 const skills = [
   { name: "HTML", emoji: "🌐" },
   { name: "CSS", emoji: "🎨" },
