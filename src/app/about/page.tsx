@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Timeline from '@/components/Timeline';
 
 const timeline = [
   {
@@ -29,7 +30,7 @@ const timeline = [
     emoji: "🚀",
     title: "This Portfolio",
     description:
-      "Launched my personal dev+gamer themed portfolio. You’re looking at it 😉",
+      "Launched my personal dev+gamer themed portfolio. You're looking at it 😉",
   },
 ];
 
@@ -52,31 +53,12 @@ export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold text-center mb-10">My Journey 📜</h1>
-
-      <div className="space-y-10 border-l-2 border-muted pl-6 relative">
-        {timeline.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.2 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <span className="absolute -left-[30px] text-xl">{item.emoji}</span>
-            <div className="text-sm text-muted-foreground">{item.year}</div>
-            <div className="text-xl font-semibold">{item.title}</div>
-            <p className="text-muted-foreground">{item.description}</p>
-          </motion.div>
-        ))}
-      </div>
-
+      <Timeline />
       {/* Skills Grid */}
       <div className="mt-20">
         <h2 className="text-3xl font-semibold mb-6 text-center">
           Tech Stack ⚙️
         </h2>
-
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6 place-items-center text-sm text-muted-foreground">
           {skills.map((tech, index) => (
             <motion.div
