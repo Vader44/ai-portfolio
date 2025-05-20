@@ -5,6 +5,7 @@ import { useTypewriter } from 'react-simple-typewriter';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import SkillsVisualization from '@/components/SkillsVisualization';
+import { usePathname } from 'next/navigation';
 
 export default function Home() {
   const [text] = useTypewriter({
@@ -17,10 +18,18 @@ export default function Home() {
     loop: 0,
     delaySpeed: 1500,
   });
+  const pathname = usePathname();
 
   return (
     <main className="min-h-screen">
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 text-center overflow-hidden">
+      <motion.section
+        key={pathname}
+        className="relative min-h-screen flex flex-col items-center justify-center px-4 text-center overflow-hidden"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 40 }}
+        transition={{ duration: 0.8 }}
+      >
         {/* Background Glow */}
         <div className="absolute -z-10 h-[600px] w-[600px] rounded-full bg-purple-500 blur-[120px] opacity-10" />
 
@@ -39,7 +48,8 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-6xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-fuchsia-500 to-indigo-500 bg-clip-text text-transparent"
+          className="font-extrabold tracking-tight mb-4 bg-gradient-to-r from-fuchsia-500 to-indigo-500 bg-clip-text text-transparent text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+          style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)' }}
         >
           Yash Tawde
         </motion.h1>
@@ -65,19 +75,31 @@ export default function Home() {
             <Button size="lg">View Skills</Button>
           </Link>
         </motion.div>
-      </section>
+      </motion.section>
 
       {/* Skills Section */}
-      <section id="skills">
+      <motion.section
+        id="skills"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         <SkillsVisualization />
-      </section>
+      </motion.section>
 
       {/* Optionally, add a button to About page */}
-      <div className="flex justify-center mt-8">
+      <motion.div
+        className="flex justify-center mt-8"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.4 }}
+      >
         <Link href="/about">
           <Button variant="secondary">See My Journey</Button>
         </Link>
-      </div>
+      </motion.div>
     </main>
   );
 }

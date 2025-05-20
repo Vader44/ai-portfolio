@@ -82,7 +82,13 @@ export default function Timeline() {
   const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
 
   return (
-    <section className="py-16 px-4">
+    <motion.section
+      className="py-16 px-4"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="max-w-6xl mx-auto">
         <div className="relative">
           {/* Timeline line */}
@@ -93,19 +99,20 @@ export default function Timeline() {
             {timelineData.map((event, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.7 }}
                 className="relative"
               >
                 {/* Timeline dot */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-primary" />
 
                 {/* Event card */}
-                <div
-                  className={`relative ${
-                    index % 2 === 0 ? "ml-auto" : "mr-auto"
-                  } w-[calc(50%-2rem)]`}
+                <motion.div
+                  className={`relative ${index % 2 === 0 ? "ml-auto" : "mr-auto"} w-[calc(50%-2rem)]`}
+                  whileHover={{ scale: 1.03, boxShadow: "0 8px 32px rgba(80,80,180,0.15)" }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
                   <Card
                     className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
@@ -150,7 +157,7 @@ export default function Timeline() {
                       </span>
                     </div>
                   </Card>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -197,6 +204,6 @@ export default function Timeline() {
           </motion.div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 } 

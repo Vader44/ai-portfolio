@@ -20,11 +20,23 @@ const skills = [
 
 export default function AboutPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+    <motion.div
+      className="max-w-3xl mx-auto px-4 py-12"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+    >
       <h1 className="text-4xl font-bold text-center mb-10">My Journey 📜</h1>
       <Timeline />
       {/* Skills Grid */}
-      <div className="mt-20">
+      <motion.div
+        className="mt-20"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         <h2 className="text-3xl font-semibold mb-6 text-center">
           Tech Stack ⚙️
         </h2>
@@ -43,7 +55,7 @@ export default function AboutPage() {
             </motion.div>
           ))}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
