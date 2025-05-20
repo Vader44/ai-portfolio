@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Send, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 
 const BOT_AVATAR = "🦾";
 const USER_AVATAR = "🧑‍💻";
@@ -72,7 +73,7 @@ const DVD_SVGS = [
   '/dvd/dvdlogo-07.svg',
 ];
 
-// Add error handling for SVG loading
+// Refactor DVDLogoImg to use Next.js Image
 const DVDLogoImg = ({ index }: { index: number }) => {
   const [error, setError] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -87,7 +88,7 @@ const DVDLogoImg = ({ index }: { index: number }) => {
 
   return (
     <div className="relative w-[200px] h-[100px]">
-      <img
+      <Image
         src={DVD_SVGS[index]}
         alt={`DVD Logo ${index + 1}`}
         width={200}
@@ -106,6 +107,7 @@ const DVDLogoImg = ({ index }: { index: number }) => {
           console.log(`Successfully loaded SVG: ${DVD_SVGS[index]}`);
           setLoaded(true);
         }}
+        priority
       />
       {!loaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-yellow-500/20 text-yellow-500">
@@ -122,13 +124,11 @@ export default function ChatWidget() {
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState<
     { sender: "bot" | "user"; text: string; isResume?: boolean; isCountdown?: boolean }[]
-  >([{ sender: "bot", text: "Hi! I'm VadarBuddy. Ask me anything 👇" }]);
+  >([{ sender: "bot", text: "Hi! I&apos;m VadarBuddy. Ask me anything 👇" }]);
 
   const endRef = useRef<HTMLDivElement>(null);
-  const dvdColors = ["#6366F1", "#F59E42", "#10B981", "#F43F5E", "#FBBF24", "#3B82F6", "#A21CAF", "#F472B6"];
   const [showDVD, setShowDVD] = useState(false);
   const [dvdPos, setDvdPos] = useState({ x: 100, y: 100 });
-  const [dvdDir, setDvdDir] = useState({ dx: 2, dy: 2 });
   const [dvdSvgIndex, setDvdSvgIndex] = useState(0);
   const [dvdCountdown, setDvdCountdown] = useState<number | null>(null);
   const dvdRef = useRef<HTMLDivElement>(null);
@@ -152,7 +152,6 @@ export default function ChatWidget() {
     let svgIndex = Math.floor(Math.random() * DVD_SVGS.length);
     
     setDvdPos({ x, y });
-    setDvdDir({ dx, dy });
     setDvdSvgIndex(svgIndex);
 
     const move = () => {
@@ -187,7 +186,6 @@ export default function ChatWidget() {
       }
       
       setDvdPos({ x, y });
-      setDvdDir({ dx, dy });
       raf = requestAnimationFrame(move);
     };
     
@@ -252,11 +250,6 @@ export default function ChatWidget() {
   function triggerMatrixMode() {
     console.log('🎬 DVD Logo effect triggered');
     setShowDVD(true);
-  }
-
-  function stopMatrixMode() {
-    console.log('🎬 DVD Logo effect stopped');
-    setShowDVD(false);
   }
 
   const handleSend = () => {
@@ -364,7 +357,7 @@ export default function ChatWidget() {
                   transition={{ duration: 0.7 }}
                   className="text-center text-base md:text-lg font-semibold text-primary mb-3"
                 >
-                  👋 Welcome! I'm VadarBuddy. Try a quick reply or ask me anything!
+                  👋 Welcome! I&apos;m VadarBuddy. Try a quick reply or ask me anything!
                 </motion.div>
               )}
               {messages.map((msg, i) => (
@@ -388,7 +381,7 @@ export default function ChatWidget() {
                   >
                     {msg.text === "__steam_profile__" ? (
                       <>
-                        🎮 I'm deep into AAA games — Red Dead Redemption, Assassin's Creed, God of War, you name it. On PS5 and PC both.
+                        🎮 I&apos;m deep into AAA games — Red Dead Redemption, Assassin&apos;s Creed, God of War, you name it. On PS5 and PC both.
                         <div className="mt-3">
                           <a
                             href="https://steamcommunity.com/id/gamevader"
